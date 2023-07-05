@@ -6,7 +6,9 @@ public enum IceCreamFlavour
 {
     Chocolate,
     Mint,
-    Vanilla
+    Vanilla,
+    Lucuma,
+    Strawberry
 }
 
 public class Flavour : MonoBehaviour

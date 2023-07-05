@@ -10,26 +10,55 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI pointsText;
     [SerializeField] TextMeshProUGUI timeText;
     int points = 0;
+    [SerializeField] float startingTimer;
     float timer;
     public int goodClients = 0;
+    public int badClients = 0;
 
     [SerializeField] GameObject menuObject;
+    [SerializeField] GameObject defeatObject;
+    [SerializeField] TextMeshProUGUI pointTextDefeat, goodClientsDefeat, badClientsDefeat;
     public bool isPaused = false;
 
     void Start()
     {
         menuObject.SetActive(false);
+        defeatObject.SetActive(false);
+        timer = startingTimer;
     }
     void Update()
     {
-        timer += Time.deltaTime;
+        timer -= Time.deltaTime;
         // Create a TimeSpan object from the current time
         TimeSpan timeSpan = TimeSpan.FromSeconds(timer);
 
         // Format the time with hours, minutes, and seconds
-        timeText.text = "Time: " + $"{timeSpan.Hours:00}:{timeSpan.Minutes:00}:{timeSpan.Seconds:00}";
+        timeText.text = "Tiempo: " + $"{timeSpan.Minutes:00}:{timeSpan.Seconds:00}";
 
         Difficulty();
+
+        if(timer <= 0.3f)
+        {
+            Defeat();
+        }
+    }
+
+    public void Defeat()
+    {
+        defeatObject.SetActive(true);
+        pointTextDefeat.text = "--- " + points.ToString() + " ---";
+        goodClientsDefeat.text = goodClients.ToString();
+        badClientsDefeat.text = badClients.ToString();
+        PlayerPrefs.SetInt("lastScore", points);
+        isPaused = true;
+        Time.timeScale = 0f;
+    }
+
+    public void ReloadScene()
+    {
+        isPaused = false;
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void Difficulty()
@@ -77,20 +106,20 @@ public class GameManager : MonoBehaviour
         UpdatePointText();
     }
 
+    public void AddTime(float extraTime)
+    {
+        timer += extraTime;
+    }
+
     public void UpdatePointText()
     {
-        if(points < 0)
+        if (points < 1000)
         {
-            points = 0;
-            pointsText.text = "Points: " + points.ToString("000");
-        }
-        else if (points < 1000)
-        {
-            pointsText.text = "Points: " + points.ToString("000");
+            pointsText.text = "Puntos: " + points.ToString("000");
         }
         else
         {
-            pointsText.text = "Points: " + (points / 1000).ToString("F1") + "K";
+            pointsText.text = "Puntos: " + (points / 1000).ToString("F1") + "K";
         }
     }
 

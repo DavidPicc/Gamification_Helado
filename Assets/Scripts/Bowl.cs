@@ -10,7 +10,6 @@ public class Bowl : MonoBehaviour
     public Collider2D trashCollider;
     public GameObject space;
     bool bowlPlaced = false;
-    //bool floating = false;
     public bool hasLid = false;
     [SerializeField] Transform originalTransform;
     ClientOrder selectedClient;
@@ -33,13 +32,6 @@ public class Bowl : MonoBehaviour
             {
                 CheckClient();
             }
-            //if(floating)
-            //{
-            //    if (!GetComponent<IngredientMove>().isBeingDragged)
-            //    {
-            //        CheckClient();
-            //    }
-            //}
         }
     }
 
@@ -53,11 +45,11 @@ public class Bowl : MonoBehaviour
 
                 if (!spaceCollider.gameObject.GetComponent<WorkBase>().occupied)
                 {
-                    // Drop the bowl inside the space
                     transform.SetParent(spaceCollider.transform);
                     transform.position = spaceCollider.transform.position;
                     space = spaceCollider.gameObject;
                     spaceCollider.gameObject.GetComponent<WorkBase>().occupied = true;
+                    spaceCollider.gameObject.GetComponent<WorkBase>().bowlShadow.SetActive(false);
                     droppedInBowl = true;
                     bowlPlaced = true;
                     originalTransform = spaceCollider.transform;
@@ -67,7 +59,6 @@ public class Bowl : MonoBehaviour
         }
         if (!droppedInBowl)
         {
-            // Destroy the bowl
             Destroy(gameObject);
         }
     }
@@ -76,8 +67,6 @@ public class Bowl : MonoBehaviour
     {
         clientColliders = GameObject.FindObjectsOfType<ClientOrder>().Select(client => client.GetComponent<ClientOrder>()).ToArray();
     }
-
-
 
     private void CheckClient()
     {
@@ -91,17 +80,11 @@ public class Bowl : MonoBehaviour
                 if (!clientOrder.satisfied)
                 {
                     Debug.Log("CLIENTE");
-                    // Drop the bowl inside the client and check if client satisfied.
                     clientOrder.CheckIfReady(this);
                     if (clientOrder.ready_)
                     {
                         Debug.Log("CLIENTE SATISFECHO");
                         goodClients.Add(clientOrder);
-                        //originalTransform.gameObject.GetComponent<WorkBase>().occupied = false;
-                        //clientOrder.ClientSatisfied();
-                        //droppedInClient = true;
-                        //Destroy(gameObject);
-                        //break;
                     }
                 }
             }
@@ -127,82 +110,10 @@ public class Bowl : MonoBehaviour
         }
         if (!droppedInClient)
         {
-            FindObjectOfType<GameManager>().LessPoints(1);
+            //FindObjectOfType<GameManager>().LessPoints(1);
             originalTransform.gameObject.GetComponent<WorkBase>().occupied = false;
             space.GetComponent<WorkBase>().DeactivateFlavourCircle();
             Destroy(gameObject);
         }
     }
-    //private void CheckClient()
-    //{
-    //    ClientArray();
-    //    bool droppedInClient = false;
-    //    foreach (Collider2D clientCollider in clientColliders)
-    //    {
-    //        if (clientCollider != null && clientCollider.bounds.Contains(transform.position))
-    //        {
-    //            if (!clientCollider.gameObject.GetComponent<ClientOrder>().satisfied)
-    //            {
-    //                Debug.Log("CLIENTE");
-    //                // Drop the bowl inside the client and check if client satisfied.
-    //                clientCollider.gameObject.GetComponent<ClientOrder>().CheckIfReady(this);
-    //                if(clientCollider.gameObject.GetComponent<ClientOrder>().satisfied)
-    //                {
-    //                    Debug.Log("CLIENTE SATISFECHO");
-    //                    droppedInClient = true;
-    //                    originalTransform.gameObject.GetComponent<WorkBase>().occupied = false;
-    //                    clientCollider.gameObject.GetComponent<ClientOrder>().ClientSatisfied();
-    //                    Destroy(gameObject);
-    //                    break;
-    //                }
-    //            }
-    //        }
-    //    }
-    //    if (!droppedInClient)
-    //    {
-    //        Collider2D trashCollider = FindObjectOfType<Trash>().GetComponent<Collider2D>();
-    //        if (trashCollider != null && trashCollider.bounds.Contains(transform.position))
-    //        {
-    //            originalTransform.gameObject.GetComponent<WorkBase>().occupied = false;
-    //            floating = false;
-    //            Destroy(gameObject);
-    //        }
-    //        else
-    //        {
-    //            // Returns the bowl.
-    //            transform.position = originalTransform.position;
-    //        }
-    //    }
-    //    floating = false;
-    //}
-
-    //Vector3 MouseWorldPos()
-    //{
-    //    Vector3 mouseScreenPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    //    mouseScreenPos.z = 0;
-    //    return mouseScreenPos;
-    //}
-
-    //private void OnMouseDown()
-    //{
-    //    if(hasLid)
-    //    {
-    //        GetComponent<CircleCollider2D>().isTrigger = false;
-    //        GetComponent<CircleCollider2D>().isTrigger = true;
-    //        GetComponent<IngredientMove>().isBeingDragged = true;
-    //        floating = true;
-    //    }
-    //}
-
-    //private void OnMouseDrag()
-    //{
-    //    if (hasLid)
-    //        transform.position = MouseWorldPos();
-    //}
-
-    //private void OnMouseUp()
-    //{
-    //    if(hasLid)
-    //        GetComponent<IngredientMove>().isBeingDragged = false;
-    //}
 }

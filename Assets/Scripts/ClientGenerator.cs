@@ -10,7 +10,6 @@ public class ClientGenerator : MonoBehaviour
     [SerializeField] int maxClients = 5;
     public int clients = 0;
     float timer;
-    //GetComponent<Renderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
     void Start()
     {
         timer = clientTimer;
@@ -40,7 +39,8 @@ public class ClientGenerator : MonoBehaviour
         }
         var client = Instantiate(clientPrefab, clientPos[randomPos].position, Quaternion.identity);
         clientPos[randomPos].gameObject.GetComponent<ClientSpace>().occupied = true;
-        client.GetComponent<SpriteRenderer>().color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+        //client.GetComponent<SpriteRenderer>().color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+        client.GetComponent<ClientOrder>().clientRenderer.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         client.GetComponent<ClientOrder>().space = clientPos[randomPos];
         clients += 1;
     }

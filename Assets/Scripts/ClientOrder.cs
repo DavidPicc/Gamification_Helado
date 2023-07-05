@@ -5,6 +5,8 @@ using TMPro;
 
 public class ClientOrder : MonoBehaviour
 {
+    public SpriteRenderer clientRenderer;
+
     public Flavour[] flavoursAvailable;
     public List<IceCreamFlavour> desiredFlavours = new List<IceCreamFlavour>();
     int flavourNumber;
@@ -19,6 +21,7 @@ public class ClientOrder : MonoBehaviour
     [SerializeField] public float clientTimer;
     public float timer;
     [SerializeField] int clientPoints;
+    [SerializeField] float clientTime;
 
     private void Start()
     {
@@ -34,12 +37,15 @@ public class ClientOrder : MonoBehaviour
         {
             case 1:
                 clientPoints = 2;
+                clientTime = 5f;
                 break;
             case 2:
                 clientPoints = 5;
+                clientTime = 8f;
                 break;
             case 3:
                 clientPoints = 10;
+                clientTime = 10f;
                 break;
         }
         for (int i = 0; i < flavourNumber; i++)
@@ -86,6 +92,7 @@ public class ClientOrder : MonoBehaviour
         space.GetComponent<ClientSpace>().occupied = false;
         FindObjectOfType<ClientGenerator>().clients -= 1;
         FindObjectOfType<GameManager>().AddPoints(clientPoints);
+        FindObjectOfType<GameManager>().AddTime(clientTime);
         Destroy(gameObject);
     }
 
@@ -93,7 +100,8 @@ public class ClientOrder : MonoBehaviour
     {
         space.GetComponent<ClientSpace>().occupied = false;
         FindObjectOfType<ClientGenerator>().clients -= 1;
-        FindObjectOfType<GameManager>().LessPoints(5);
+        //FindObjectOfType<GameManager>().LessPoints(5);
+        FindObjectOfType<GameManager>().badClients += 1;
         Destroy(gameObject);
     }
 
