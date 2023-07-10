@@ -102,6 +102,8 @@ public class Bowl : MonoBehaviour
         {
             space.GetComponent<WorkBase>().DeactivateFlavourCircle();
             space.GetComponent<WorkBase>().occupied = false;
+            space.GetComponent<WorkBase>().PlaySound();
+            space.GetComponent<WorkBase>().MoreTimeObject();
             space = null;
             originalTransform.gameObject.GetComponent<WorkBase>().occupied = false;
             selectedClient.ClientSatisfied();

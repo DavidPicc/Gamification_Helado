@@ -59,11 +59,11 @@ public class TextMovement : MonoBehaviour
         {
             if (scores[i] != 0)
             {
-                scoreTexts[i].text = (i + 1).ToString() + ". " + scores[i].ToString() + " pts";
+                scoreTexts[i].text = scores[i].ToString() + " pts";
             }
             else
             {
-                scoreTexts[i].text = (i + 1).ToString() + ". TBD";
+                scoreTexts[i].text = "TBD";
             }
         }
 

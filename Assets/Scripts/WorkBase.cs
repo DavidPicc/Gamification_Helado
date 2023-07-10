@@ -8,14 +8,11 @@ public class WorkBase : MonoBehaviour
     public bool occupied = false;
     public GameObject bowlShadow;
     public Transform[] flavourCircles;
+    public GameObject timeObject;
 
     void Start()
     {
-        //flavourCircles = GetComponentsInChildren<Transform>();
-        //for (int i = 1; i < flavourCircles.Length; i++)
-        //{
-        //    flavourCircles[i].gameObject.SetActive(false);
-        //}
+        timeObject.SetActive(false);
 
         Transform[] children = GetComponentsInChildren<Transform>();
 
@@ -60,5 +57,16 @@ public class WorkBase : MonoBehaviour
 
         // Add the child to the last index of the array
         flavourCircles[flavourCircles.Length - 1] = child;
+    }
+
+    public void PlaySound()
+    {
+        GetComponent<AudioSource>().Play();
+    }
+
+    public void MoreTimeObject()
+    {
+        timeObject.SetActive(true);
+        timeObject.GetComponent<Animator>().SetTrigger("MoreTime");
     }
 }

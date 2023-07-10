@@ -11,6 +11,14 @@ public class MainMenuManager : MonoBehaviour
         Time.timeScale = 1.0f;
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            PlayerPrefs.DeleteAll();
+        }
+    }
+
     public void PlayButton()
     {
         Time.timeScale = 1.0f;

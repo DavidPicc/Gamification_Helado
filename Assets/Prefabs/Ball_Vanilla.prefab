@@ -77,8 +77,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: -1547989392, guid: 01ee4549bd025b946b2001dab1b79c47, type: 3}
-  m_Color: {r: 1, g: 0.99088836, b: 0.75, a: 1}
+  m_Sprite: {fileID: -910030873, guid: a79ac98461cb6e3429777ddd372b0ab0, type: 3}
+  m_Color: {r: 1, g: 0.92941177, b: 0.4862745, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iceCreamFlavour: 2
-  iceCreamColor: {r: 1, g: 0.9921569, b: 0.7490196, a: 1}
+  iceCreamColor: {r: 1, g: 0.9294118, b: 0.48627454, a: 1}
 --- !u!114 &6584866948186179858
 MonoBehaviour:
   m_ObjectHideFlags: 0

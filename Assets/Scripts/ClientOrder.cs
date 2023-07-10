@@ -23,6 +23,8 @@ public class ClientOrder : MonoBehaviour
     [SerializeField] int clientPoints;
     [SerializeField] float clientTime;
 
+    public bool manualClient = false;
+
     private void Start()
     {
         //flavourCircles = GetComponentsInChildren<Transform>();
@@ -36,22 +38,35 @@ public class ClientOrder : MonoBehaviour
         switch(flavourNumber)
         {
             case 1:
-                clientPoints = 2;
+                clientPoints = 5;
                 clientTime = 5f;
                 break;
             case 2:
-                clientPoints = 5;
-                clientTime = 8f;
+                clientPoints = 10;
+                clientTime = 5f;
                 break;
             case 3:
-                clientPoints = 10;
-                clientTime = 10f;
+                clientPoints = 20;
+                clientTime = 5f;
                 break;
         }
+        if(!manualClient)
+        {
+            MakeOrder();
+        }
+        else
+        {
+            MakeOrder(flavoursAvailable[0]);
+        }
+        timer = clientTimer;
+    }
+
+    public void MakeOrder()
+    {
         for (int i = 0; i < flavourNumber; i++)
         {
             //IceCreamFlavour flavour = (IceCreamFlavour)Random.Range(0, 3);
-            Flavour flavour = flavoursAvailable[Random.Range(0,flavoursAvailable.Length)];
+            Flavour flavour = flavoursAvailable[Random.Range(0, flavoursAvailable.Length)];
             //flavour.iceCreamFlavour = (IceCreamFlavour)Random.Range(0, 3);
             if (!desiredFlavours.Contains(flavour.iceCreamFlavour))
             {
@@ -64,15 +79,36 @@ public class ClientOrder : MonoBehaviour
                 i--;
             }
         }
+    }
 
-        timer = clientTimer;
+    public void MakeOrder(Flavour pickedFlavour)
+    {
+        for (int i = 0; i < 1; i++)
+        {
+            //IceCreamFlavour flavour = (IceCreamFlavour)Random.Range(0, 3);
+            Flavour flavour = pickedFlavour;
+            //flavour.iceCreamFlavour = (IceCreamFlavour)Random.Range(0, 3);
+            if (!desiredFlavours.Contains(flavour.iceCreamFlavour))
+            {
+                desiredFlavours.Add(flavour.iceCreamFlavour);
+                flavourCircles[i].gameObject.SetActive(true);
+                flavourCircles[i].GetComponent<SpriteRenderer>().color = flavour.iceCreamColor;
+            }
+            else
+            {
+                i--;
+            }
+        }
     }
 
     void Update()
     {
-        timer -= Time.deltaTime;
+        if(!manualClient)
+        {
+            timer -= Time.deltaTime;
+        }
         timerText.text = "0:" + timer.ToString("00");
-        if(timer < 1)
+        if (timer < 1)
         {
             ClientGoesAway();
         }

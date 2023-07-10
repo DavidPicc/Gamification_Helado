@@ -15,4 +15,9 @@ public class Flavour : MonoBehaviour
 {
     public IceCreamFlavour iceCreamFlavour;
     public Color iceCreamColor;
+
+    private void Start()
+    {
+        iceCreamColor = GetComponent<SpriteRenderer>().color;
+    }
 }

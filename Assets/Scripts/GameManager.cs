@@ -28,18 +28,21 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        timer -= Time.deltaTime;
-        // Create a TimeSpan object from the current time
-        TimeSpan timeSpan = TimeSpan.FromSeconds(timer);
-
-        // Format the time with hours, minutes, and seconds
-        timeText.text = "Tiempo: " + $"{timeSpan.Minutes:00}:{timeSpan.Seconds:00}";
-
-        Difficulty();
-
-        if(timer <= 0.3f)
+        if(GetComponent<TutorialManager>().finishedTutorial)
         {
-            Defeat();
+            timer -= Time.deltaTime;
+            // Create a TimeSpan object from the current time
+            TimeSpan timeSpan = TimeSpan.FromSeconds(timer);
+
+            // Format the time with hours, minutes, and seconds
+            timeText.text = "Tiempo: " + $"{timeSpan.Minutes:00}:{timeSpan.Seconds:00}";
+
+            Difficulty();
+
+            if (timer <= 0.3f)
+            {
+                Defeat();
+            }
         }
     }
 
@@ -49,7 +52,7 @@ public class GameManager : MonoBehaviour
         pointTextDefeat.text = "--- " + points.ToString() + " ---";
         goodClientsDefeat.text = goodClients.ToString();
         badClientsDefeat.text = badClients.ToString();
-        PlayerPrefs.SetInt("lastScore", points);
+        //PlayerPrefs.SetInt("lastScore", points);
         isPaused = true;
         Time.timeScale = 0f;
     }
@@ -141,6 +144,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         isPaused = false;
+        PlayerPrefs.SetInt("lastScore", points);
         SceneManager.LoadScene("MainMenu");
     }
 }
